@@ -70,7 +70,7 @@ export default async function CategoriesMenu() {
                 <div className="space-y-3 border-t border-slate-200/70 p-4">
                     <AddNewCategoryButton variant="wide" />
                     <p className="text-center text-[11px] leading-relaxed text-slate-400">
-                        In-memory demo data · resets when the server restarts
+                        Data is stored in this browser · stays until you clear it
                     </p>
                 </div>
             </aside>

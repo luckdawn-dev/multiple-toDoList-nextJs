@@ -1,16 +1,15 @@
 "use server"
 
 import { refresh } from "next/cache";
-import { IToDoItem, IToDoCount } from "@/app/shared/models/toDo.model"
-
-let toDoItems: IToDoItem[] = [];
+import { IToDoCount } from "@/app/shared/models/toDo.model"
+import { readState, writeState } from "@/app/shared/store/store";
 
 export async function getToDoItems(categoryId: string) {
-    return toDoItems.filter((toDoItem) => toDoItem.categoryId === categoryId);
+    return (await readState()).toDoItems.filter((toDoItem) => toDoItem.categoryId === categoryId);
 }
 
 export async function getToDoCounts(): Promise<Record<string, IToDoCount>> {
-    return toDoItems.reduce<Record<string, IToDoCount>>((counts, toDoItem) => {
+    return (await readState()).toDoItems.reduce<Record<string, IToDoCount>>((counts, toDoItem) => {
         const count = counts[toDoItem.categoryId] ?? { total: 0, done: 0 };
         count.total += 1;
         if (toDoItem.done) count.done += 1;
@@ -23,29 +22,45 @@ export async function addToDoItem(categoryId: string, itemName: string) {
     const trimmedName = itemName.trim();
     if (!trimmedName) return;
 
-    toDoItems = [
-        ...toDoItems,
-        { id: crypto.randomUUID(), categoryId, name: trimmedName, done: false },
-    ];
+    const state = await readState();
+    await writeState({
+        ...state,
+        toDoItems: [
+            ...state.toDoItems,
+            { id: crypto.randomUUID(), categoryId, name: trimmedName, done: false },
+        ],
+    });
     refresh();
 }
 
 export async function toggleItemDone(categoryId: string, itemId: string) {
-    toDoItems = toDoItems.map((toDoItem) =>
-        toDoItem.id === itemId && toDoItem.categoryId === categoryId
-            ? { ...toDoItem, done: !toDoItem.done }
-            : toDoItem,
-    );
+    const state = await readState();
+    await writeState({
+        ...state,
+        toDoItems: state.toDoItems.map((toDoItem) =>
+            toDoItem.id === itemId && toDoItem.categoryId === categoryId
+                ? { ...toDoItem, done: !toDoItem.done }
+                : toDoItem,
+        ),
+    });
     refresh();
 }
 
 export async function deleteItem(categoryId: string, itemId: string) {
-    toDoItems = toDoItems.filter(
-        (toDoItem) => toDoItem.categoryId !== categoryId || toDoItem.id !== itemId,
-    );
+    const state = await readState();
+    await writeState({
+        ...state,
+        toDoItems: state.toDoItems.filter(
+            (toDoItem) => toDoItem.categoryId !== categoryId || toDoItem.id !== itemId,
+        ),
+    });
     refresh();
 }
 
 export async function removeItemsByCategory(categoryId: string) {
-    toDoItems = toDoItems.filter((toDoItem) => toDoItem.categoryId !== categoryId);
+    const state = await readState();
+    await writeState({
+        ...state,
+        toDoItems: state.toDoItems.filter((toDoItem) => toDoItem.categoryId !== categoryId),
+    });
 }
