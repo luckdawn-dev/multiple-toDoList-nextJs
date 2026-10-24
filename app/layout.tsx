@@ -58,18 +58,6 @@ function CategoriesMenuFallback() {
   );
 }
 
-function ContentFallback() {
-  return (
-    <div className="flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-4 lg:min-h-screen">
-      <div className="flex items-center gap-1.5" role="status" aria-label="Loading">
-        <span className="h-2 w-2 animate-bounce rounded-full bg-slate-300" />
-        <span className="h-2 w-2 animate-bounce rounded-full bg-slate-300 [animation-delay:-0.2s]" />
-        <span className="h-2 w-2 animate-bounce rounded-full bg-slate-300 [animation-delay:-0.4s]" />
-      </div>
-    </div>
-  );
-}
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -80,9 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={<CategoriesMenuFallback />}>
           <CategoriesMenu />
         </Suspense>
-        <main className="flex-1 pt-14 lg:pt-0 lg:pl-72">
-          <Suspense fallback={<ContentFallback />}>{children}</Suspense>
-        </main>
+        <main className="flex-1 pt-14 lg:pt-0 lg:pl-72">{children}</main>
       </body>
     </html>
   );

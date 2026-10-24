@@ -9,8 +9,6 @@ export default function ToDoItemForm(props: ToDoItemFormParams) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        // Auto-focus only when a mouse is available — on touch devices a
-        // keyboard popping open right after every navigation is intrusive.
         if (window.matchMedia("(pointer: fine)").matches) {
             inputRef.current?.focus();
         }

@@ -23,7 +23,7 @@ A polished, fully responsive to-do app where **every task lives in its own list*
 - **Friendly 404** — unknown list ids render a custom "List not found" page instead of a generic error.
 - **Responsive & accessible** — desktop sidebar ↔ mobile top bar with the same component tree; hover states degrade gracefully on touch (revealed delete buttons, `touch-manipulation`, 40px+ tap targets); ARIA labels on every icon button; visible focus rings; `prefers-reduced-motion` support; keyboard-friendly forms (Enter to submit).
 - **Mobile-specific hardening** — phone-landscape proof (centered screens scroll instead of clipping), 16px inputs on touch so iOS never auto-zooms on focus, the keyboard only auto-opens when a mouse is present, extra bottom padding keeps the last task clear of the floating "+" button, and the top-bar chip strip auto-scrolls to the active list (`prefers-reduced-motion` aware).
-- **Streaming UX** — skeleton screens for the navigation and page content powered by Partial Prerendering.
+- **Streaming navigation, SSR list screens** — the navigation shell streams behind a skeleton; every list screen is fully server-rendered on request (`ƒ Dynamic` routes), so the HTML you receive is always fresh.
 
 ## 🧱 Tech stack
 
@@ -56,7 +56,7 @@ npm run lint
 
 ```
 app/
-├── layout.tsx                  # root layout: fonts, metadata, <Suspense> shells
+├── layout.tsx                  # root layout: fonts, metadata, navigation fallback shell
 ├── globals.css                 # Tailwind 4 + theme tokens + light theme base
 ├── page.tsx                    # "/" → redirects to /toDoList
 ├── not-found.tsx               # custom 404 ("List not found")
@@ -73,7 +73,7 @@ app/
 │   │   └── hook/
 │   │       └── useAddCategoryForm.ts # form state, create + navigate flow
 │   └── [id]/
-│       ├── page.tsx            # validates the id (notFound fallback), sets tab title, renders the list UI
+│       ├── page.tsx            # validates the id (notFound fallback), sets tab title, renders the list UI (SSR per request via `connection()`)
 │       └── components/
 │           ├── ToDoItem.tsx            # single task row (checkbox, delete)
 │           ├── AddToDoForm.tsx         # add-task form
@@ -106,13 +106,13 @@ Why a cookie and not in-memory module state? Because it is the only zero-depende
 Two details worth noting for reviewers:
 
 - **State is scoped per category.** Tasks never leak between lists — `getToDoItems(categoryId)` filters by category and mutating actions take the `categoryId` and validate ownership.
-- **Partial Prerendering (cacheComponents).** The route shell is prerendered; dynamic parts (categories list, current path via `usePathname()`, `await params`) are wrapped in `<Suspense>` with custom skeletons and stream in. Because the menu reads state through `cookies()`, the streamed content is always fresh per request.
+- **Fully server-rendered list screens (`cacheComponents`).** Each list page calls `connection()` — rendering waits for the current request, reads the cookie store, and returns fresh HTML (no build-time snapshot is served). The navigation menu streams behind its `<Suspense>` fallback, and the active path (`usePathname()`) highlights per request.
 
 ## 🎯 What this project demonstrates
 
 - Designing a full App Router architecture around **Server Components and Server Actions**, with clear `client` / `server` boundaries (every interactive piece is a thin Client Component on top of server-rendered UI).
 - **Feature-first, hook-driven organization**: one custom hook per interaction (form submit, arm-to-confirm delete, per-item pending) so components stay declarative.
-- Next 16 specifics: `cacheComponents` / Partial Prerendering with `<Suspense>` skeletons, `refresh()` revalidation from Server Actions, `PageProps` and typed routes.
+- Next 16 specifics: `cacheComponents` with fully server-rendered list screens (`connection()`), streaming navigation via `<Suspense>`, `refresh()` revalidation from Server Actions, `PageProps` and typed routes.
 - A **responsive-first UI system** in Tailwind: sidebar ↔ top-bar navigation with the same component tree, touch-friendly targets, skeleton streaming states.
 - Accessibility attention beyond the checklist: ARIA states (`aria-pressed`, `aria-label`, `role="status"`), focus-visible rings, hit areas off on hover-only affordances.
 

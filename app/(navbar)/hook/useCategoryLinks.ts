@@ -9,8 +9,6 @@ export function useCategoryLinks() {
         return pathname === href;
     }
 
-    // On small screens the lists live in a horizontal, scrollable top bar.
-    // Keep the active chip visible whenever the route changes.
     useEffect(() => {
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         activeChipRef.current?.scrollIntoView({

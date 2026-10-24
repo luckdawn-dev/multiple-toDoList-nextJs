@@ -1,6 +1,6 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { getCategory, removeCategory } from "@/app/shared/actions/category/actions";
 import { addToDoItem, deleteItem, getToDoItems, toggleItemDone } from "@/app/shared/actions/toDoItem/actions";
 import { categoryColor } from "@/app/shared/color";
@@ -11,6 +11,8 @@ import DeleteListButton from "./components/DeleteListButton";
 
 type ToDoListByIdProps = PageProps<'/toDoList/[id]'>;
 
+export const instant = false;
+
 export async function generateMetadata({ params }: ToDoListByIdProps): Promise<Metadata> {
     const { id } = await params;
     const category = await getCategory(id);
@@ -18,20 +20,11 @@ export async function generateMetadata({ params }: ToDoListByIdProps): Promise<M
 }
 
 export default function ToDoListById(props: ToDoListByIdProps) {
-    return (
-        <Suspense
-            fallback={
-                <div className="flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-4 lg:min-h-screen">
-                    <div className="h-8 w-8 animate-pulse rounded-full bg-slate-200" />
-                </div>
-            }
-        >
-            <ToDoListContent params={props.params} />
-        </Suspense>
-    );
+    return <ToDoListContent params={props.params} />;
 }
 
 async function ToDoListContent({ params }: { params: Promise<{ id: string }> }) {
+    await connection();
     const { id } = await params;
 
     const category = await getCategory(id);
