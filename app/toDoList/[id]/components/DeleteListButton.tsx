@@ -13,7 +13,7 @@ export default function DeleteListButton(props: DeleteListButtonParams) {
             disabled={isPending}
             aria-label={isArmed ? "Confirm deleting this list" : "Delete list"}
             title={isArmed ? "Click again to confirm the deletion" : "Delete this list and all of its tasks"}
-            className={`flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border px-3 text-sm font-medium transition active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 ${
+            className={`flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border px-3 text-sm font-medium transition touch-manipulation active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 ${
                 isArmed || isPending
                     ? "border-transparent bg-linear-to-br from-rose-500 to-rose-600 text-white shadow-sm shadow-rose-500/25"
                     : "border-slate-200 bg-white text-slate-400 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"

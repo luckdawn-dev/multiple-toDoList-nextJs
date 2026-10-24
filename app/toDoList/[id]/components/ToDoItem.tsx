@@ -22,7 +22,7 @@ export default function ToDoItem({ toDoItem, index, toggleItemDone, deleteItem }
                 aria-pressed={isDone}
                 aria-label={isDone ? "Mark as not completed" : "Mark as completed"}
                 title={isDone ? "Mark as not completed" : "Mark as completed"}
-                className={`grid h-[22px] w-[22px] shrink-0 cursor-pointer place-items-center rounded-full transition-all duration-200 disabled:pointer-events-none ${
+                className={`grid h-6 w-6 shrink-0 cursor-pointer place-items-center rounded-full transition-all duration-200 touch-manipulation disabled:pointer-events-none ${
                     isDone
                         ? "border border-transparent bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-sm shadow-indigo-500/30"
                         : "border-2 border-slate-300 text-transparent hover:border-indigo-500"
@@ -45,7 +45,7 @@ export default function ToDoItem({ toDoItem, index, toggleItemDone, deleteItem }
                 disabled={isPending !== null}
                 aria-label={`Remove task ${toDoItem.name}`}
                 title="Remove"
-                className={`shrink-0 cursor-pointer rounded-lg p-1.5 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:pointer-events-none disabled:opacity-40 sm:opacity-0 sm:group-hover:opacity-100 ${
+                className={`shrink-0 cursor-pointer rounded-lg p-1.5 text-slate-400 transition touch-manipulation hover:bg-rose-50 hover:text-rose-600 disabled:pointer-events-none disabled:opacity-40 sm:opacity-0 sm:group-hover:opacity-100 ${
                     isPending === "delete" ? "opacity-40 sm:opacity-100" : ""
                 }`}
             >

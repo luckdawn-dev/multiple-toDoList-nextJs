@@ -21,7 +21,8 @@ A polished, fully responsive to-do app where **every task lives in its own list*
 - **Adaptive navigation** — a fixed sidebar on desktop; a top bar with horizontally scrollable category chips plus a floating action button on mobile.
 - **Deterministic identity** — each list gets a stable accent color derived from its id, consistent across the app.
 - **Friendly 404** — unknown list ids render a custom "List not found" page instead of a generic error.
-- **Responsive & accessible** — hover states degrade gracefully on touch (revealed delete buttons), ARIA labels on every icon button, visible focus rings, `prefers-reduced-motion` support, keyboard-friendly forms (Enter to submit).
+- **Responsive & accessible** — desktop sidebar ↔ mobile top bar with the same component tree; hover states degrade gracefully on touch (revealed delete buttons, `touch-manipulation`, 40px+ tap targets); ARIA labels on every icon button; visible focus rings; `prefers-reduced-motion` support; keyboard-friendly forms (Enter to submit).
+- **Mobile-specific hardening** — phone-landscape proof (centered screens scroll instead of clipping), 16px inputs on touch so iOS never auto-zooms on focus, the keyboard only auto-opens when a mouse is present, extra bottom padding keeps the last task clear of the floating "+" button, and the top-bar chip strip auto-scrolls to the active list (`prefers-reduced-motion` aware).
 - **Streaming UX** — skeleton screens for the navigation and page content powered by Partial Prerendering.
 
 ## 🧱 Tech stack

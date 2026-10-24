@@ -46,7 +46,7 @@ async function ToDoListContent({ params }: { params: Promise<{ id: string }> }) 
     const color = categoryColor(category.id);
 
     return (
-        <div className="mx-auto w-full max-w-3xl px-4 py-10 lg:px-8">
+        <div className="mx-auto w-full max-w-3xl px-4 pt-8 pb-28 lg:px-8 lg:py-10">
             <div className="animate-fade-in-up">
                 <div className="flex items-center gap-3">
                     <span

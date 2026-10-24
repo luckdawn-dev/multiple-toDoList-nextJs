@@ -9,8 +9,8 @@ export default function AddCategoryForm(props: AddCategoryFormParams) {
     const { categoryName, setCategoryName, isPending, isEmpty, onCreateCategory } = useAddCategoryForm(props);
 
     return (
-        <div className="flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-4 py-10 lg:min-h-screen">
-            <div className="w-full max-w-md animate-fade-in-up">
+        <div className="flex min-h-[calc(100svh-3.5rem)] px-4 py-10 lg:min-h-screen">
+            <div className="m-auto w-full max-w-md animate-fade-in-up">
                 <div className="rounded-3xl border border-slate-200/80 bg-white p-7 shadow-xl shadow-slate-200/70 sm:p-9">
                     <div className="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30">
                         <PlusIcon className="h-6 w-6" />
@@ -31,7 +31,7 @@ export default function AddCategoryForm(props: AddCategoryFormParams) {
                             value={categoryName}
                             onChange={(e) => setCategoryName(e.target.value)}
                             placeholder="List name — e.g. Weekly groceries"
-                            className="h-12 w-full rounded-xl border border-slate-300 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/15"
+                            className="h-12 w-full rounded-xl border border-slate-300 bg-slate-50/60 px-4 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/15 sm:text-sm"
                         />
                         <button
                             type="submit"

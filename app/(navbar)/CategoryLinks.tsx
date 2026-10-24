@@ -12,13 +12,13 @@ interface CategoryLinksProps {
 }
 
 export default function CategoryLinks({ categories, variant }: CategoryLinksProps) {
-    const { isCategoryActive } = useCategoryLinks();
+    const { isCategoryActive, activeChipRef } = useCategoryLinks();
 
     if (categories.length === 0) {
         const emptyClasses =
             variant === "row"
                 ? "flex w-full items-center gap-2.5 rounded-xl border border-dashed border-slate-300 px-3 py-2 text-sm text-slate-500 transition hover:border-indigo-300 hover:bg-indigo-50/60 hover:text-indigo-600"
-                : "flex items-center gap-1.5 whitespace-nowrap rounded-full bg-indigo-50 px-3 py-1.5 text-[13px] font-medium text-indigo-600 transition hover:bg-indigo-100";
+                : "flex touch-manipulation items-center gap-1.5 whitespace-nowrap rounded-full bg-indigo-50 px-3 py-1.5 text-[13px] font-medium text-indigo-600 transition hover:bg-indigo-100";
 
         return (
             <Link href="/toDoList" className={emptyClasses}>
@@ -40,14 +40,20 @@ export default function CategoryLinks({ categories, variant }: CategoryLinksProp
                           ? "bg-indigo-50/80 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-100"
                           : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   }`
-                : `flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] transition ${
+                : `flex touch-manipulation items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] transition ${
                       isActive
                           ? "bg-indigo-600 font-medium text-white shadow-sm shadow-indigo-500/25"
                           : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   }`;
 
         return (
-            <Link key={category.id} href={href} className={itemClasses} title={category.name}>
+            <Link
+                key={category.id}
+                href={href}
+                ref={isActive ? activeChipRef : undefined}
+                className={itemClasses}
+                title={category.name}
+            >
                 <span
                     aria-hidden="true"
                     className="h-2 w-2 shrink-0 rounded-full"

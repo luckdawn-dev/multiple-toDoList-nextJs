@@ -12,7 +12,7 @@ export default function AddNewCategoryButton({ variant = "wide" }: AddNewCategor
                 href="/toDoList"
                 aria-label="New list"
                 title="New list"
-                className="fixed right-6 bottom-6 z-40 grid h-12 w-12 place-items-center rounded-full bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30 transition hover:from-indigo-600 hover:to-violet-700 hover:shadow-indigo-500/40 active:scale-95 lg:hidden"
+                className="fixed right-6 bottom-6 z-40 grid h-12 w-12 place-items-center rounded-full bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30 transition touch-manipulation hover:from-indigo-600 hover:to-violet-700 hover:shadow-indigo-500/40 active:scale-95 lg:hidden"
             >
                 <PlusIcon className="h-5 w-5" />
             </Link>
